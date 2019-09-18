@@ -15,7 +15,7 @@ def clean_files():
     open('words.txt', 'w').close();
     open('commented.txt', 'w').close();
 
-def bot_login():
+def bot_login(): 
 	print ("Logging in")
 	r = praw.Reddit(username = config.username,
 				password = config.password,
