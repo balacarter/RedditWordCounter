@@ -25,7 +25,7 @@ def bot_login():
 	print ("Logged in")
 	return r
 			
-def run_bot(r, comments_replied_to, sub_name):
+def run_bot(r, comments_replied_to, sub_name, num):
 	
 	#Start of program
 	print ("Obtaining comments in subreddit: " + sub_name + "\n")
@@ -35,7 +35,7 @@ def run_bot(r, comments_replied_to, sub_name):
 	q = 0
 	
 	#Loop through subreddit submissions on the top 100 post of all time
-	for submission in r.subreddit(sub_name).top('all', limit = 100):
+	for submission in r.subreddit(sub_name).top('all', limit = int(num_posts)):
 		q = q + 1
 		#Loops though each top level comment in the submission
 		for top_level_comment in submission.comments:
@@ -114,6 +114,8 @@ def count_words():
 			if word not in exclude:
 				f.write("{0}, {1}\n".format(word, count))
 				k = k + 1
+
+
 	
 #Log into reddit
 r = bot_login()
@@ -126,10 +128,13 @@ comments_replied_to = get_saved_comments()
 
 #print (comments_replied_to)
 
-sub_name = "pcmasterrace"
+sub_name = input("enter a subreddit name: ")
+
+num_posts = input("Enter number of posts to scan: ")
+
 
 #start bot
-run_bot(r, comments_replied_to, sub_name)
+run_bot(r, comments_replied_to, sub_name, num_posts)
 
 #Count words from subreddit
 count_words()
