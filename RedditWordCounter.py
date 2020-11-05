@@ -1,7 +1,3 @@
-#This bot is written by a script kiddie and most likely is riddled with erros.
-#You have been warned
-#scriptHijo
-
 import praw
 import config
 import time
