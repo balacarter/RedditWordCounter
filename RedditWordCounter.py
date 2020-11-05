@@ -12,8 +12,8 @@ import io
 from collections import Counter
 
 def clean_files():
-    open('words.txt', 'w').close();
-    open('commented.txt', 'w').close();
+    open('words.txt', 'w').close()
+    open('commented.txt', 'w').close()
 
 def bot_login():
 	print ("Logging in")
@@ -25,7 +25,7 @@ def bot_login():
 	print ("Logged in")
 	return r
 			
-def run_bot(r, comments_replied_to, sub_name):
+def run_bot(r, comments_replied_to, sub_name, post_count):
 	
 	#Start of program
 	print ("Obtaining comments in subreddit: " + sub_name + "\n")
@@ -35,7 +35,7 @@ def run_bot(r, comments_replied_to, sub_name):
 	q = 0
 	
 	#Loop through subreddit submissions on the top 100 post of all time
-	for submission in r.subreddit(sub_name).top('all', limit = 100):
+	for submission in r.subreddit(sub_name).top('week', limit = post_count):
 		q = q + 1
 		#Loops though each top level comment in the submission
 		for top_level_comment in submission.comments:
@@ -106,7 +106,7 @@ def count_words():
 		#Save exclude words to a list to search through
 		exclude = f.read()
 	#Open file to write counted and sorted list to
-	k = 1; #Counter for words
+	k = 1 #Counter for words
 	with open (sub_name + ".txt", "w") as f:
 		#Loop through each word in count
 		for word, count in common.most_common():
@@ -114,22 +114,31 @@ def count_words():
 			if word not in exclude:
 				f.write("{0}, {1}\n".format(word, count))
 				k = k + 1
-	
+
+def get_sub():
+	val = input("Enter subname: ")
+	return val
+
+def get_count():
+	val = int(input("Enter post count: "))
+	return val
 #Log into reddit
 r = bot_login()
 
 #make sure files are fresh
-clean_files();
+clean_files()
 
 #List of comment id's saved
 comments_replied_to = get_saved_comments()
 
 #print (comments_replied_to)
 
-sub_name = "pcmasterrace"
+
+sub_name = get_sub()
+post_count = get_count()
 
 #start bot
-run_bot(r, comments_replied_to, sub_name)
+run_bot(r, comments_replied_to, sub_name, post_count)
 
 #Count words from subreddit
 count_words()
